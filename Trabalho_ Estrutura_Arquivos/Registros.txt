@@ -1,0 +1,1 @@
+ID|Excluido|Nome|Telefone|Email#00000|S|Denner Bougo dos Santos|34523361|dennerbougo@gmail.com#00005|N|Tatiane|55555555|emailtatiane@email.com#*a@hotmail.com#00002|S|Romulo Messias|22222222|romulomessias93@gmail.com#00003|N|Aline SIlva|33333333|emailaline@email.com#00004|N|Denner Bougo|34523362|dennerbougo@outlook.com#

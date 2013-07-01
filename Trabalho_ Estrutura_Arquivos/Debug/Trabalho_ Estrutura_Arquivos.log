@@ -1,0 +1,19 @@
+﻿Compilação de 20/06/2013 02:33:31 iniciada.
+     1>Projeto "C:\Users\DennerBougo\Desktop\Trabalho_ Estrutura_Arquivos\Trabalho_ Estrutura_Arquivos\Trabalho_ Estrutura_Arquivos.vcxproj" no nó 2 (Build destino(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Arquivos\main.cpp
+         main.cpp
+     1>c:\users\dennerbougo\desktop\trabalho_ estrutura_arquivos\trabalho_ estrutura_arquivos\arquivos\modelo\crud_arquivo.h(153): warning C4244: '=' : conversão de 'std::streamoff' para 'long', possível perda de dados
+     1>c:\users\dennerbougo\desktop\trabalho_ estrutura_arquivos\trabalho_ estrutura_arquivos\arquivos\modelo\indice.h(255): warning C4018: '<' : incompatibilidade de signed/unsigned
+     1>c:\users\dennerbougo\desktop\trabalho_ estrutura_arquivos\trabalho_ estrutura_arquivos\arquivos\modelo\indice.h(309): warning C4018: '<' : incompatibilidade de signed/unsigned
+     1>c:\users\dennerbougo\desktop\trabalho_ estrutura_arquivos\trabalho_ estrutura_arquivos\arquivos\modelo\menu.h(308): warning C4067: tokens inesperados após diretiva de pré-processador - esperado um newline
+     1>c:\users\dennerbougo\desktop\trabalho_ estrutura_arquivos\trabalho_ estrutura_arquivos\arquivos\modelo\menu.h(314): warning C4067: tokens inesperados após diretiva de pré-processador - esperado um newline
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\DennerBougo\Desktop\Trabalho_ Estrutura_Arquivos\Debug\Trabalho_ Estrutura_Arquivos.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\DennerBougo\Desktop\Trabalho_ Estrutura_Arquivos\Debug\Trabalho_ Estrutura_Arquivos.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\DennerBougo\Desktop\Trabalho_ Estrutura_Arquivos\Debug\Trabalho_ Estrutura_Arquivos.lib" /MACHINE:X86 Debug\main.obj
+         Debug\CRUD_Sequencial.obj
+         Trabalho_ Estrutura_Arquivos.vcxproj -> C:\Users\DennerBougo\Desktop\Trabalho_ Estrutura_Arquivos\Debug\Trabalho_ Estrutura_Arquivos.exe
+     1>Projeto de compilação pronto "C:\Users\DennerBougo\Desktop\Trabalho_ Estrutura_Arquivos\Trabalho_ Estrutura_Arquivos\Trabalho_ Estrutura_Arquivos.vcxproj" (Build destino(s)).
+
+Compilação com êxito.
+
+Tempo Decorrido 00:00:01.02

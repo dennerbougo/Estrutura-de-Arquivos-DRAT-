@@ -1,0 +1,315 @@
+#ifndef __Trablho_1__Menu__
+#define __Trablho_1__Menu__
+
+#include <iostream>
+using namespace std;
+#include <string>
+using namespace std;
+#include <iomanip>
+using namespace std;
+
+//#include <stdlib.h>
+
+#include "CRUD_Registro.h"
+#include "Indice.h"
+#include "Registro.h"
+#include "Worst_Fit.h"
+#include "CRUD_Sequencial.cpp"
+/*
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+*/
+
+class Menu {
+protected:
+//public:
+    CRUD_Registro controlRegistro;
+    Registro registro;
+    Indice iPrimario;
+    Indice iNome;
+    Indice iTele;
+    Indice iEmail;
+	Indice controlID;
+    Worst_Fit iExcluido;
+	CRUD_Sequencial controlSequencial;
+/*	clock_t end;
+	clock_t start;
+	double cronometro;
+*/    
+
+public:
+    Menu(){
+        this->controlRegistro.set_nome("Registros");
+        this->iPrimario.set_nome("indexID");
+        this->iNome.set_nome("indexNome");
+        this->iTele.set_nome("indexTele");
+        this->iEmail.set_nome("indexEMAIL");
+        this->iExcluido.set_nome("indexEXCLUIDO");  
+		this->controlID.set_nome("controleID");
+    }
+
+    void menu_Principal(){
+		LimparTela();
+        cout << "Acao\n "
+        << "1 - Novo Arquivo de Registros\n "
+        << "2 - Novo Registro\n "
+        << "3 - Buscar de Registro por Indices\n "
+        << "4 - Buscar Sequencial de Registro \n "
+        << "5 - Remover Registro\n "
+		<< "6 - Imprimir Espacos Excluidos\n "
+        << "0 - sair \n : ";
+    }
+    
+    void menu_Busca(){
+		LimparTela();
+        cout << "Busca:\n "
+        << "1 - Por ID\n "
+        << "2 - Por Nome\n "
+        << "3 - Por Telefone\n "
+        << "4 - Por Email\n "
+        << "0 - voltar  \n : ";
+    }
+    
+    int seleciona_Acao(){
+        int acao;
+        
+        cin >> acao;
+        cin.ignore();
+        return acao;
+    }
+    
+    void Novo_ArquivoRegistro(){
+        this->controlRegistro.Novo_Arquivo();
+        this->iPrimario.Novo_Arquivo();
+        this->iNome.Novo_Arquivo();
+        this->iEmail.Novo_Arquivo();
+        this->iExcluido.Novo_Arquivo();
+		this->controlID.Novo_Arquivo();
+    }
+
+    void Novo_Registro(){
+        fstream arquivo;
+        string reg;
+        int idReg;
+        long int pos = 0, tam_reg = 0, pos_excluida = 0;
+
+        //pegando dados dos registros e preparando pro formato padrão do registro
+        idReg = this->controlID.geraID();
+        this->registro.Pega_dados(idReg);
+        reg = this->registro.consolidarRegistro();
+        
+		pos = this->controlRegistro.tamanhoAquivo(this->controlRegistro.get_nome());
+
+        if (this->iExcluido.estaVazio() == false){
+//            pega posicao e verifica se cabe
+//            e por fim salva o registro na posicao
+			tam_reg = this->controlRegistro.Get_Tam_Reg(reg);
+			pos_excluida = this->iExcluido.Get_Posicao_Worst_Fit(tam_reg);
+
+			if(pos_excluida != -1){
+				pos = pos_excluida;
+				Controla_Worst_Fit(tam_reg, pos);
+			}
+		}
+        this->controlRegistro.salva_registro(reg, pos);
+        this->iPrimario.insereIndex(idReg, pos);
+        //atualiza indices
+    }
+
+	/*
+	*Rearruma o Worst_Fit após utilização de um registro excluido
+	*tam_reg: tamanho do registro que o usuario quer inserir
+	*pos: posicao no registro onde usuario vai inserir o novo registro
+	*/
+	void Controla_Worst_Fit(long int tam_reg, long int pos){
+		long int tam_exc = 0, tam_disp = 0, pos_disp = 0;
+		string reg;
+		
+		reg = this->iExcluido.Get_Registro();
+		tam_exc = this->iExcluido.Get_Campo1(reg);
+		tam_disp = tam_exc - tam_reg;
+		pos_disp = pos + tam_reg;
+
+		this->iExcluido.carregaIndice();
+		this->iExcluido.GravaListaArquivo(0);
+		if(tam_disp > 0){
+			this->Organiza_Worst_Fit(tam_disp, pos_disp);
+			this->controlRegistro.Marcar_Excluido(pos_disp);
+		}
+
+	}
+    
+	/*
+	 *Chama as funções de Organização do Worst_Fit
+	 *tam: tamanho do registro excluido
+	 *pos: posicao do registro excluido
+	 */
+	void Organiza_Worst_Fit(long int tam, long int pos){
+		this->iExcluido.carregaIndice();
+		this->iExcluido.InsereLista(tam,pos);
+		this->iExcluido.ordenaIndice();
+		this->iExcluido.GravaListaArquivo();
+	}
+
+    //Menu de Busca por Indices 
+    void controleMenuI(){
+        int posR = 0;
+        string reg;
+        int acao;
+        string campoBusca;
+        
+        do{
+            this->menu_Busca();
+            acao = this->seleciona_Acao();
+            
+            switch (acao) {
+                case 0:
+                    cout << "\n Voltando\n";
+                    break;
+                case 1:
+                    campoBusca = this->pegaID();
+                    posR = this->iPrimario.pegaPosicao(campoBusca);
+                    if (posR> -1){
+                        reg = this->controlRegistro.Get_Registro(posR);
+                        this->registro.exibeRegistro(reg);
+                    }
+
+//                    this->controlRegistro.carregaRegistro(posR);
+
+					PressionarBotao();
+                    break;
+                case 2:
+
+					PressionarBotao();
+                    break;
+                case 3:
+                    
+					PressionarBotao();
+                    break;
+                case 4:
+                    
+					PressionarBotao();
+                    break;
+                default:
+                    cout << "\n Opcao invalida, Sorry :D";
+                    break;
+            }
+        }while (acao != 0);
+    }
+    
+    //Menu de Busca Sequencial
+    void controleMenuS(){
+        int posR = 0;
+        int acao;
+        string campoBusca;
+        string reg;
+        
+        do{
+            this->menu_Busca();
+            acao = this->seleciona_Acao();
+            
+            switch (acao) {
+                case 0:
+                    cout << "\n Voltando\n";
+                    break;
+                case 1:
+                    campoBusca = this->pegaID();
+                    reg = this->controlRegistro.buscaSequencial(campoBusca);
+                    this->registro.exibeRegistro(reg);
+
+					PressionarBotao();
+                    break;
+                case 2:
+                    
+					PressionarBotao();
+                    break;
+                case 3:
+                    
+					PressionarBotao();
+                    break;
+                case 4:
+                    
+					PressionarBotao();
+                    break;
+                default:
+                    cout << "\n Opcao invalida, Sorry :D";
+                    break;
+            }
+        }while (acao != 0);
+    }
+    
+    string pegaID(){
+        string campo;
+        cout << "\n Digite um id para busca:\n ";
+        cin >> campo;
+        cin.ignore();
+        
+//        campo.resize(5,' ');
+
+        return campo;
+    }
+
+	void Remove_Registro(){
+		long int pos = 0, tam = 0;
+		string registro, campoBusca;
+		vector<string> lista;
+
+		campoBusca = this->pegaID();
+        pos = this->iPrimario.pegaPosicao(campoBusca);
+        
+//        cout << "REMOVENDO Posicao: " << pos;
+//        cout << "REMOVENDO ID: " <<campoBusca;
+		
+		if(pos>-1){
+            registro = this->controlRegistro.Get_Registro(pos);
+            this->controlRegistro.Remove_Registro(registro, pos);
+            
+            tam = this->controlRegistro.Get_Tam_Reg(registro);
+            
+            if (this->iExcluido.estaVazio() == true){
+                this->iExcluido.insereIndex(tam, pos);
+            }
+            else{
+                this->Organiza_Worst_Fit(tam,pos);
+            }
+			//this->controlRegistro.Marcar_Excluido(pos);
+            this->Organiza_Exclusao_IPrimario(campoBusca);
+
+			cout << "\n Registro Removido!\n";
+        }
+	}
+
+	void Organiza_Exclusao_IPrimario(string id){
+		int IDR = -1;
+		int pos = 0;
+		
+		IDR = atoi(id.c_str());
+		this->iPrimario.carregaIndice();
+		pos = this->iPrimario.buscaBinaria(IDR);
+		this->iPrimario.GravaListaArquivo(pos);
+	}
+
+	void Imprime_Espacos_Excluidos(){
+		cout << "   LISTA DE ESPACOS EXCLUIDOS\n\n";
+		cout << "\tTAMANHO\tPOSICAO\n";
+		this->iExcluido.Imprime_Lista();
+	}
+   
+	void LimparTela(){
+        #ifdef _WIN32 || ifdef _WIN64
+		system("cls");
+        #endif
+	}
+    
+	void PressionarBotao(){
+        #ifdef _WIN32 || ifdef _WIN64
+		cin.ignore();
+        #endif
+	}
+    
+
+
+};
+
+#endif /* defined(__Trablho_1__Menu__) */
